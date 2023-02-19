@@ -21,11 +21,17 @@ abstract class HttpClient {
 class HttpClientMock extends Mock implements HttpClient {}
 
 void main() {
-  test('Should call HttpClient with correct URL', () async {
-    final httpClient = HttpClientMock();
-    final url = faker.internet.httpUrl();
-    final sut = RemouteAuthentication(httpClient: httpClient, url: url);
+  late HttpClientMock httpClient;
+  late String url;
+  late RemouteAuthentication sut;
 
+  setUp((){
+     httpClient = HttpClientMock();
+     url = faker.internet.httpUrl();
+     sut = RemouteAuthentication(httpClient: httpClient, url: url);
+
+  });
+  test('Should call HttpClient with correct URL', () async {
     await sut.auth();
 
     verify(httpClient.request(url: url,method:'POST'));
